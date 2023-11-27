@@ -21,19 +21,31 @@ const getSingleStudentData = async (
   return singleStudentData;
 };
 
+// Update Single student data
 
-// Update a student data  
+const updateSingleStudentData = async (
+  studentId: string,
+  studentUpdateData: TStudent,
+): Promise<TStudent | null> => {
+  const updateData = await StudentModel.findByIdAndUpdate(
+    studentId,
+    studentUpdateData,
+  );
+  return updateData;
+};
 
-const updateSingleStudentData = async(studentId: string, studentUpdateData:TStudent) : Promise<TStudent | null> =>{
-    const updateData = await StudentModel.findByIdAndUpdate(studentId,studentUpdateData)
-    return updateData;
-}
+// Delete Single Student data
 
+const deleteSingleStudentData = async (studentId: string) => {
+  const reult = await StudentModel.findByIdAndDelete(studentId);
 
+  return reult;
+};
 
 export const studentServices = {
   createStudentIntoDB,
   getAllStudent,
   getSingleStudentData,
-  updateSingleStudentData
+  updateSingleStudentData,
+  deleteSingleStudentData,
 };
