@@ -13,6 +13,7 @@ const getAllStudent = async () => {
   return result;
 };
 
+// Retrive one student information. and throw response in client
 const getSingleStudentData = async (
   studentId: string,
 ): Promise<TStudent | null> => {
@@ -20,8 +21,19 @@ const getSingleStudentData = async (
   return singleStudentData;
 };
 
+
+// Update a student data  
+
+const updateSingleStudentData = async(studentId: string, studentUpdateData:TStudent) : Promise<TStudent | null> =>{
+    const updateData = await StudentModel.findByIdAndUpdate(studentId,studentUpdateData)
+    return updateData;
+}
+
+
+
 export const studentServices = {
   createStudentIntoDB,
   getAllStudent,
   getSingleStudentData,
+  updateSingleStudentData
 };
