@@ -1,8 +1,8 @@
-import { Student } from './student.interface';
+import { TStudent } from './student.interface';
 import { StudentModel } from './student.model';
 
 // Crerate Student and Store Data in Mongoodb using Mongoose
-const createStudentIntoDB = async (student: Student) => {
+const createStudentIntoDB = async (student: TStudent) => {
   const result = await StudentModel.create(student);
   return result;
 };
@@ -13,7 +13,15 @@ const getAllStudent = async () => {
   return result;
 };
 
+const getSingleStudentData = async (
+  studentId: string,
+): Promise<TStudent | null> => {
+  const singleStudentData = await StudentModel.findById(studentId);
+  return singleStudentData;
+};
+
 export const studentServices = {
   createStudentIntoDB,
   getAllStudent,
+  getSingleStudentData,
 };
