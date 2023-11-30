@@ -1,7 +1,6 @@
 import { TStudent } from './student.interface';
 import { StudentModel } from './student.model';
 
-
 // Retrive all student information. and throw response in client
 const getAllStudent = async () => {
   const result = await StudentModel.find();

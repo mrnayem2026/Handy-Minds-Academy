@@ -11,21 +11,21 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
   // set password default password , if user not given password
   userData.password = password || (config.DEFAULT_PASSWORD as string);
 
-  // set role 
-  userData.role =  "student"
+  // set role
+  userData.role = 'student';
 
-  // set custom password 
-  userData.id = '123456789'
+  // set custom password
+  userData.id = '123456789';
 
   // create a new user
-  const newUser =await userModel.create(studentData);
+  const newUser = await userModel.create(studentData);
 
   //create a student
   if (Object.keys(newUser).length) {
     studentData.id = newUser.id;
-    studentData.user = newUser._id
+    studentData.user = newUser._id;
 
-    const newStudent = await StudentModel.create(studentData)
+    const newStudent = await StudentModel.create(studentData);
     return newStudent;
   }
 };

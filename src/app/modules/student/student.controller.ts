@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import { studentServices } from './student.service';
 
-
-
 const getAllStudent = async (req: Request, res: Response) => {
   try {
     const result = await studentServices.getAllStudent();
