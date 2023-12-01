@@ -7,5 +7,6 @@ const router = Router();
 
 router.post('/create-academic-semester',validateRequest(AcademicSemesterValidations.createAcdemicSemesterValidationSchema), academicSemesterControllers.createAcademicSemesterIntoDB)
 router.get('/', academicSemesterControllers.getAllAcademicSemestersFromDB)
+router.get('/:semesterId', academicSemesterControllers.getSingleAcademicSemesterFromDB)
 
 export const AcademicRouter = router;
