@@ -56,33 +56,37 @@ const LocalGuardianZodValidationSchema = z.object({
 });
 
 const StudentZodValidationSchema = z.object({
-  id: z.string(),
-  password: z.string().min(6),
-  name: UserNameZodValidationSchema,
-  gender: z.enum(['male', 'female']),
-  dateOfBirth: z.string(),
-  email: z.string().email({ message: 'Invalid email format.' }),
-  contactNo: z.string().min(1, {
-    message:
-      'Contact number is required and must be at least 1 character long.',
+  body: z.object({
+    student: z.object({
+      id: z.string(),
+      password: z.string().min(6),
+      name: UserNameZodValidationSchema,
+      gender: z.enum(['male', 'female']),
+      dateOfBirth: z.string(),
+      email: z.string().email({ message: 'Invalid email format.' }),
+      contactNo: z.string().min(1, {
+        message:
+          'Contact number is required and must be at least 1 character long.',
+      }),
+      emergencyContactNo: z.string().min(1, {
+        message:
+          'Emergency contact number is required and must be at least 1 character long.',
+      }),
+      bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+      presentAddress: z.string().min(1, {
+        message:
+          'Present address is required and must be at least 1 character long.',
+      }),
+      permanentAddress: z.string().min(1, {
+        message:
+          'Permanent address is required and must be at least 1 character long.',
+      }),
+      guardian: GuardianZodValidationSchema,
+      localGuardian: LocalGuardianZodValidationSchema,
+      profileImg: z.string(),
+      isActive: z.enum(['active', 'blocked']),
+    }),
   }),
-  emergencyContactNo: z.string().min(1, {
-    message:
-      'Emergency contact number is required and must be at least 1 character long.',
-  }),
-  bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-  presentAddress: z.string().min(1, {
-    message:
-      'Present address is required and must be at least 1 character long.',
-  }),
-  permanentAddress: z.string().min(1, {
-    message:
-      'Permanent address is required and must be at least 1 character long.',
-  }),
-  guardian: GuardianZodValidationSchema,
-  localGuardian: LocalGuardianZodValidationSchema,
-  profileImg: z.string(),
-  isActive: z.enum(['active', 'blocked']),
 });
 
 export default StudentZodValidationSchema;
