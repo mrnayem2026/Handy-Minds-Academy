@@ -9,7 +9,6 @@ const createAcademicSemesterIntoDB = catchAsync(
     const result = academicSemesterServices.createAcademicSemesterIntoDB(
       req.body,
     );
-
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,

@@ -87,7 +87,12 @@ const studentSchema = new Schema<TStudent>({
     type: userNameSchema,
     required: [true, 'Name is rquired'],
   },
-  gender: ['male', 'female'],
+  gender: {
+    type : String,
+    enum:{
+      values : ['male', 'female'],
+    }
+  },
   dateOfBirth: { type: String },
   email: {
     type: String,
@@ -105,13 +110,27 @@ const studentSchema = new Schema<TStudent>({
   },
   contactNo: { type: String, required: true },
   emergencyContactNo: { type: String, required: true },
-  bloodGroup: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  bloodGroup: {
+    type: String,
+    enum:{
+      values : ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+      message: '{VALUE} is not a valid blood group',
+    }
+
+  },
   presentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
   guardian: guardianSchema,
   localGuardian: localGuradianSchema,
   profileImg: { type: String },
-  isActive: ['active', 'blocked'],
+  admissionSemester: Schema.Types.ObjectId,
+  isActive: {
+    type : String,
+    enum:{
+      values : ['active', 'blocked'],
+      message : '{VALUE} is not valid.'
+    }
+  },
 });
 
 export const StudentModel = model<TStudent>('Student', studentSchema);
