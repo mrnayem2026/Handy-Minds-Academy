@@ -1,27 +1,25 @@
 import { academicSemesterNameCodeMapper } from './academicSemester.constant';
 import { TAcademicSemester } from './academicSemester.interface';
-import { academicSemesterModel } from './academicSemester.model';
+import { AcademicSemester } from './academicSemester.model';
 
 const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
-
-
   /* Here [payload.name] means her code.
   Such as: I give parameter is 'Fall' it semestaer code will be "03", so [payload.name] == "Fall" == '03' */
-  if(academicSemesterNameCodeMapper[payload.name] !== payload.code){
-    throw new Error('Invalid Semester Code')
+  if (academicSemesterNameCodeMapper[payload.name] !== payload.code) {
+    throw new Error('Invalid Semester Code');
   }
 
-  const result = await academicSemesterModel.create(payload);
+  const result = await AcademicSemester.create(payload);
   return result;
 };
 
 const getAllAcademicSemestersFromDB = async () => {
-  const result = await academicSemesterModel.find();
+  const result = await AcademicSemester.find();
   return result;
 };
 
 const getSingleAcademicSemesterFromDB = async (semesterId: string) => {
-  const result = await academicSemesterModel.findById(semesterId);
+  const result = await AcademicSemester.findById(semesterId);
   return result;
 };
 
@@ -29,13 +27,15 @@ const updateAcademicSemesterIntoDB = async (
   semesterId: string,
   payload: Partial<TAcademicSemester>,
 ) => {
-
-
-  if(payload.name && payload.code && academicSemesterNameCodeMapper[payload.name] !== payload.code){
-    throw new Error('Invalid Semester Code')
+  if (
+    payload.name &&
+    payload.code &&
+    academicSemesterNameCodeMapper[payload.name] !== payload.code
+  ) {
+    throw new Error('Invalid Semester Code');
   }
-
-  const result = await academicSemesterModel.findByIdAndUpdate(
+// TODO: plase solve this problem , when update semester code and name It must will be semester code and name equeal .
+  const result = await AcademicSemester.findByIdAndUpdate(
     semesterId,
     payload,
   );

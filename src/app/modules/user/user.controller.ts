@@ -10,7 +10,6 @@ const createStudent = async (
 ) => {
   try {
     const { password, student: studentData } = req.body;
-    console.log({ password });
 
     const result = await userServices.createStudentIntoDB(
       password,

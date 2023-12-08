@@ -9,7 +9,7 @@ const userSchema = new Schema<TUser>(
   {
     id: {
       type: String,
-      required: [true, 'Name is rquired'],
+      required: [true, 'Id is rquired'],
     },
     password: {
       type: String,
@@ -39,4 +39,4 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-export const userModel = model<TUser>('User', userSchema);
+export const User = model<TUser>('User', userSchema);

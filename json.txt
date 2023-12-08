@@ -1,0 +1,38 @@
+{
+    "password": "4565444",
+    "student": {
+        "id": "54564654",
+        "name": {
+            "firstName": "John",
+            "middleName": "",
+            "lastName": "Doe"
+        },
+        "password": "4565444",
+        "gender": "male",
+        "dateOfBirth": "1990-01-01",
+        "email": "john.doe2@example.com",
+        "contactNo": "1234567890",
+        "emergencyContactNo": "9876543210",
+        "bloodGroup": "A+",
+        "presentAddress": "123 Main Street, City",
+        "permanentAddress": "456 Oak Avenue, Town",
+        "guardian": {
+            "fatherName": "Bob Doe",
+            "fatherOccupation": "Engineer",
+            "fatherContactNo": "1112223333",
+            "motherName": "Alice Doe",
+            "motherOccupation": "Doctor",
+            "motherContactNo": "4445556666"
+        },
+        "localGuardian": {
+            "name": "Charlie Guardian",
+            "email": "johngurddian.doe@example.com",
+            "occupation": "Teacher",
+            "contactNo": "7778889999",
+            "address": "789 Pine Road, Village"
+        },
+        "profileImg": "path/to/profile.jpg",
+        "admissionSemester": "6568243ac06e0e6d73c78aea",
+        "isActive": "active"
+    }
+}
