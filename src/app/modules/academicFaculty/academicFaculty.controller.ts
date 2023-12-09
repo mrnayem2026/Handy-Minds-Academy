@@ -39,8 +39,25 @@ const getSingleAcademicFaculty = catchAsync(async(req:Request,res:Response)=>{
     })
 })
 
+const updateAcademicFacultyIntoDB = catchAsync(async(req:Request,res:Response)=>{
+     const {facultyId} = req.params;
+     const payload = req.body;
+
+     const result = await AcademicFacultyServices.updateAcademicFacultyIntoDB(facultyId,payload);
+
+     sendResponse(res,{
+        statusCode:httpStatus.OK,
+        success:true,
+        message:'Academic faculty is updated succesfully',
+        data:result
+     })
+
+
+})
+
 export const AcademicFacultyControllers = {
     createAcademicFacultyIntoDB,
     getAllAcademicFacultiesFromDB,
-    getSingleAcademicFaculty
+    getSingleAcademicFaculty,
+    updateAcademicFacultyIntoDB
 }
