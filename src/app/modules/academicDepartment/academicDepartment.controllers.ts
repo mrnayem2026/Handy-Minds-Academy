@@ -26,7 +26,20 @@ const getAllAcademicDepartmentsFromDB = catchAsync(async(req:Request,res:Respons
     })
 })
 
+const getSingleAcademicDepartmentFromDB = catchAsync(async(req:Request,res:Response)=>{
+    const {academicDepartmentId} = req.params;
+    const result = await AcademicDepartmentServices.getSingleAcademicDepartmentFromDB(academicDepartmentId);
+
+    sendResponse(res,{
+        statusCode:httpStatus.OK,
+        success:true,
+        message:'Academic department is retrieved succesfully',
+        data:result
+    })
+})
+
 export const AcademicDepartmentController =  {
     createAcademicDepartmentIntoDB,
-    getAllAcademicDepartmentsFromDB
+    getAllAcademicDepartmentsFromDB,
+    getSingleAcademicDepartmentFromDB
 }
