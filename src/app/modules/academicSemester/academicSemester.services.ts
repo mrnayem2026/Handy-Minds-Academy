@@ -34,11 +34,8 @@ const updateAcademicSemesterIntoDB = async (
   ) {
     throw new Error('Invalid Semester Code');
   }
-// TODO: plase solve this problem , when update semester code and name It must will be semester code and name equeal .
-  const result = await AcademicSemester.findByIdAndUpdate(
-    semesterId,
-    payload,
-  );
+  // TODO: plase solve this problem , when update semester code and name It must will be semester code and name equeal .
+  const result = await AcademicSemester.findByIdAndUpdate(semesterId, payload);
 
   return result;
 };

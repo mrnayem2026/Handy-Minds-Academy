@@ -1,15 +1,28 @@
-import { Router } from "express";
-import validateRequest from "../../midellwares/validateRequest";
-import { AcademicDepartmentValidation } from "./academicDepartment.validation";
-import { academicSemesterControllers } from "../academicSemester/academicSemester.controller";
+import { Router } from 'express';
+import validateRequest from '../../midellwares/validateRequest';
+import { AcademicDepartmentValidation } from './academicDepartment.validation';
+import { AcademicDepartmentController } from './academicDepartment.controllers';
 
-const router = Router()
+const router = Router();
 
-router.post('/create-academic-department',validateRequest(AcademicDepartmentValidation.createAcademicDepartmentValidationSchema),academicSemesterControllers.createAcademicSemesterIntoDB);
-router.patch('/:academicDepartmentId',validateRequest(AcademicDepartmentValidation.updateAcademicDepartmentValidationSchema),academicSemesterControllers.updateAcademicSemesterIntoDB);
-router.get('/:academicDepartmentId',academicSemesterControllers.getSingleAcademicSemesterFromDB);
-router.get('/',academicSemesterControllers.getAllAcademicSemestersFromDB)
-
-
+router.post(
+  '/create-academic-department',
+  validateRequest(
+    AcademicDepartmentValidation.createAcademicDepartmentValidationSchema,
+  ),
+  AcademicDepartmentController.createAcademicDepartmentIntoDB,
+);
+router.patch(
+  '/:academicDepartmentId',
+  validateRequest(
+    AcademicDepartmentValidation.updateAcademicDepartmentValidationSchema,
+  ),
+  AcademicDepartmentController.updateAcademicDepartmentIntoDB,
+);
+router.get(
+  '/:academicDepartmentId',
+  AcademicDepartmentController.getSingleAcademicDepartmentFromDB,
+);
+router.get('/', AcademicDepartmentController.getAllAcademicDepartmentsFromDB);
 
 export const AcademicDepartmentRouter = router;

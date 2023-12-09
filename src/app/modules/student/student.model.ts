@@ -88,10 +88,10 @@ const studentSchema = new Schema<TStudent>({
     required: [true, 'Name is rquired'],
   },
   gender: {
-    type : String,
-    enum:{
-      values : ['male', 'female'],
-    }
+    type: String,
+    enum: {
+      values: ['male', 'female'],
+    },
   },
   dateOfBirth: { type: String },
   email: {
@@ -112,11 +112,10 @@ const studentSchema = new Schema<TStudent>({
   emergencyContactNo: { type: String, required: true },
   bloodGroup: {
     type: String,
-    enum:{
-      values : ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    enum: {
+      values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
       message: '{VALUE} is not a valid blood group',
-    }
-
+    },
   },
   presentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
@@ -124,15 +123,15 @@ const studentSchema = new Schema<TStudent>({
   localGuardian: localGuradianSchema,
   profileImg: { type: String },
   admissionSemester: {
-    type : Schema.Types.ObjectId,
-    ref : 'AcademicSemester'
+    type: Schema.Types.ObjectId,
+    ref: 'AcademicSemester',
   },
   isActive: {
-    type : String,
-    enum:{
-      values : ['active', 'blocked'],
-      message : '{VALUE} is not valid.'
-    }
+    type: String,
+    enum: {
+      values: ['active', 'blocked'],
+      message: '{VALUE} is not valid.',
+    },
   },
 });
 
