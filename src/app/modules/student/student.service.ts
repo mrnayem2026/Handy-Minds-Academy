@@ -7,7 +7,7 @@ import { User } from '../user/user.model';
 
 // Retrive all student information. and throw response in client
 const getAllStudent = async () => {
-  const result = await StudentModel.find();
+  const result = await StudentModel.find().populate('admissionSemester');
   return result;
 };
 
