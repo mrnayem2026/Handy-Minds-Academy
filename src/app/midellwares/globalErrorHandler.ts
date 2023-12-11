@@ -7,30 +7,29 @@ import { TErrorSources } from '../interface/error';
 
 import config from '../config';
 import handleZodError from '../errors/handleZodError';
+import handleDuplicateError from '../errors/handleDuplicateError';
 
-const globalErrorHandler : ErrorRequestHandler = (
-  err,
-  req,
-  res,
-  next,
-) => {
+const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
   let message = err.message || 'Something went wrong from globalErrorHandler';
-  let errorSources:  TErrorSources =[ {
-    path:'',
-    message:'Something went wrong!',
-}]
+  let errorSources: TErrorSources = [
+    {
+      path: '',
+      message: 'Something went wrong!',
+    },
+  ];
 
-  if(err instanceof ZodError)
-  {
+  if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err);
-    statusCode = simplifiedError.statusCode
-    message = simplifiedError.message
-    errorSources = simplifiedError.errorSources
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
+  } else if (err?.code === 11000) {
+    const simplifiedError = handleDuplicateError(err);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
   }
-
-
-
 
   return res.status(statusCode).json({
     success: false,
