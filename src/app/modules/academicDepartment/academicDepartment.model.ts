@@ -7,7 +7,6 @@ const academicDevpartmentSchema = new Schema<TAcademicDepartment>(
     name: {
       type: String,
       required: [true, 'Academic Department Name is rquired'],
-      unique: true,
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
@@ -20,16 +19,16 @@ const academicDevpartmentSchema = new Schema<TAcademicDepartment>(
 );
 
 // this middleware create for Is department exist
-academicDevpartmentSchema.pre('save', async function (next) {
-  const isDepartmentExist = await AcademicDepartment.findOne({
-    name: this.name,
-  });
+// academicDevpartmentSchema.pre('save', async function (next) {
+//   const isDepartmentExist = await AcademicDepartment.findOne({
+//     name: this.name,
+//   });
 
-  if (isDepartmentExist) {
-    throw new Error('This department is already exist!');
-  }
-  next();
-});
+//   if (isDepartmentExist) {
+//     throw new Error('This department is already exist!');
+//   }
+//   next();
+// });
 
 // this middleware create for check before update department
 academicDevpartmentSchema.pre('findOneAndUpdate', async function (next) {
