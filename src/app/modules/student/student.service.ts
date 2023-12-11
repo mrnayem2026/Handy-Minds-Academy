@@ -8,12 +8,9 @@ import { studentSearchableFields } from './student.constant';
 
 // Retrive all student information. and throw response in client
 const getAllStudent = async (query: Record<string, unknown>) => {
-  
   const queryObj = { ...query };
-  
+
   let searchTerm = '';
-
-
 
   if (query?.searchTerm) {
     searchTerm = query?.searchTerm as string;
@@ -25,16 +22,38 @@ const getAllStudent = async (query: Record<string, unknown>) => {
     })),
   }).populate('admissionSemester');
 
-
-  const excludeFields = ['searchTerm'];
+  const excludeFields = ['searchTerm', 'sort', 'limit', 'page'];
   excludeFields.forEach((el) => delete queryObj[el]);
+  console.log({ query }, { queryObj });
 
-  const filteringQuery = await searchQuery.find(queryObj).populate('admissionSemester');
-  
+  const filteringQuery = searchQuery
+    .find(queryObj)
+    .populate('admissionSemester');
 
+  let sort = '-createdAt';
+  let limit = 1;
+  let page = 1;
+  let skip = 0;
 
+  if (query?.sort) {
+    sort = query?.sort as string;
+  }
+  const sortQuery = filteringQuery.sort(sort);
 
-  return filteringQuery;
+  if (query?.limit) {
+    limit = Number(query?.limit);
+    console.log(query?.limit);
+  }
+  const limitQuery = sortQuery.limit(limit);
+
+  if (query?.page) {
+    page = query?.page as number;
+    skip = (page - 1) * limit;
+  }
+
+  const paginationQuery = await limitQuery.skip(skip);
+
+  return paginationQuery;
 };
 
 // Retrive one student information. and throw response in client
