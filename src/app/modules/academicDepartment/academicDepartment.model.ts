@@ -7,6 +7,7 @@ const academicDevpartmentSchema = new Schema<TAcademicDepartment>(
     name: {
       type: String,
       required: [true, 'Academic Department Name is rquired'],
+      unique: true,
     },
     academicFaculty: {
       type: Schema.Types.ObjectId,
@@ -50,7 +51,7 @@ academicDevpartmentSchema.pre('findOneAndUpdate', async function (next) {
 
   const existingDepartment = await AcademicDepartment.findOne({ name });
   if (existingDepartment) {
-    throw new AppError(404,'This name is alrady exist. pleace try new name');
+    throw new AppError(404, 'This name is alrady exist. pleace try new name');
   }
   next();
 });

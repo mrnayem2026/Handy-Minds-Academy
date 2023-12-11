@@ -133,10 +133,10 @@ const studentSchema = new Schema<TStudent>({
       message: '{VALUE} is not valid.',
     },
   },
-  isDeleted:{
+  isDeleted: {
     type: Boolean,
-    default:false
-  }
+    default: false,
+  },
 });
 
 export const StudentModel = model<TStudent>('Student', studentSchema);

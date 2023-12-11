@@ -24,7 +24,7 @@ const userSchema = new Schema<TUser>(
       type: String,
       enum: ['in-progress', 'blokced'],
     },
-    isDeleted: { type: Boolean, default:false },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,

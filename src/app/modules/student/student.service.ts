@@ -33,7 +33,7 @@ const updateSingleStudentData = async (
 };
 
 // Delete Single Student data
-const deleteSingleStudentData =async (id: string) => {
+const deleteSingleStudentData = async (id: string) => {
   const session = await mongoose.startSession();
 
   try {

@@ -7,7 +7,8 @@ import { TErrorSources } from '../interface/error';
 
 import config from '../config';
 import handleZodError from '../errors/handleZodError';
-import handleDuplicateError from '../errors/handleDuplicateError';
+import { handleDuplicateError } from '../errors/handleDuplicateError';
+import { handleValidationError } from '../errors/handleValidationError';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
@@ -26,6 +27,11 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     errorSources = simplifiedError.errorSources;
   } else if (err?.code === 11000) {
     const simplifiedError = handleDuplicateError(err);
+    statusCode = simplifiedError.statusCode;
+    message = simplifiedError.message;
+    errorSources = simplifiedError.errorSources;
+  } else if (err?.name === 'ValidationError') {
+    const simplifiedError = handleValidationError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorSources = simplifiedError.errorSources;
