@@ -4,10 +4,21 @@ import { StudentModel } from './student.model';
 import { AppError } from '../../errors/AppError';
 import httpStatus from 'http-status';
 import { User } from '../user/user.model';
+import { studentSearchableFields } from './student.constant';
 
 // Retrive all student information. and throw response in client
-const getAllStudent = async () => {
-  const result = await StudentModel.find().populate('admissionSemester');
+const getAllStudent = async (query: Record<string, unknown>) => {
+  let searchTerm = '';
+
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
+
+  const result = await StudentModel.find({
+    $or: studentSearchableFields.map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  }).populate('admissionSemester');
   return result;
 };
 
