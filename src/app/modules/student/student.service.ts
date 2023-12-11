@@ -22,9 +22,8 @@ const getAllStudent = async (query: Record<string, unknown>) => {
     })),
   }).populate('admissionSemester');
 
-  const excludeFields = ['searchTerm', 'sort', 'limit', 'page'];
+  const excludeFields = ['searchTerm', 'sort', 'limit', 'page','fields'];
   excludeFields.forEach((el) => delete queryObj[el]);
-  console.log({ query }, { queryObj });
 
   const filteringQuery = searchQuery
     .find(queryObj)
@@ -42,7 +41,6 @@ const getAllStudent = async (query: Record<string, unknown>) => {
 
   if (query?.limit) {
     limit = Number(query?.limit);
-    console.log(query?.limit);
   }
   const limitQuery = sortQuery.limit(limit);
 
@@ -51,9 +49,18 @@ const getAllStudent = async (query: Record<string, unknown>) => {
     skip = (page - 1) * limit;
   }
 
-  const paginationQuery = await limitQuery.skip(skip);
+  const paginationQuery =  limitQuery.skip(skip);
 
-  return paginationQuery;
+
+  let fields ='-__v'
+
+  if(query?.fields){
+    fields = (query?.fields as string).split(',').join(" ");
+  }
+
+  const fieldsQuery = await paginationQuery.select(fields); 
+
+  return fieldsQuery;
 };
 
 // Retrive one student information. and throw response in client
