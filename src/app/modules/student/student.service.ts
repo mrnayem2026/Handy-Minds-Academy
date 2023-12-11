@@ -8,18 +8,33 @@ import { studentSearchableFields } from './student.constant';
 
 // Retrive all student information. and throw response in client
 const getAllStudent = async (query: Record<string, unknown>) => {
+  
+  const queryObj = { ...query };
+  
   let searchTerm = '';
+
+
 
   if (query?.searchTerm) {
     searchTerm = query?.searchTerm as string;
   }
 
-  const result = await StudentModel.find({
+  const searchQuery = StudentModel.find({
     $or: studentSearchableFields.map((field) => ({
       [field]: { $regex: searchTerm, $options: 'i' },
     })),
   }).populate('admissionSemester');
-  return result;
+
+
+  const excludeFields = ['searchTerm'];
+  excludeFields.forEach((el) => delete queryObj[el]);
+
+  const filteringQuery = await searchQuery.find(queryObj).populate('admissionSemester');
+  
+
+
+
+  return filteringQuery;
 };
 
 // Retrive one student information. and throw response in client
