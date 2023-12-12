@@ -5,10 +5,12 @@ import { AppError } from '../../errors/AppError';
 import httpStatus from 'http-status';
 import { User } from '../user/user.model';
 import { studentSearchableFields } from './student.constant';
+import { QueryBuilder } from '../../builders/QueryBuilder';
 
 // Retrive all student information. and throw response in client
 const getAllStudent = async (query: Record<string, unknown>) => {
-  const queryObj = { ...query };
+  /*
+   const queryObj = { ...query };
 
   let searchTerm = '';
 
@@ -22,7 +24,7 @@ const getAllStudent = async (query: Record<string, unknown>) => {
     })),
   }).populate('admissionSemester');
 
-  const excludeFields = ['searchTerm', 'sort', 'limit', 'page','fields'];
+  const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
   excludeFields.forEach((el) => delete queryObj[el]);
 
   const filteringQuery = searchQuery
@@ -49,18 +51,30 @@ const getAllStudent = async (query: Record<string, unknown>) => {
     skip = (page - 1) * limit;
   }
 
-  const paginationQuery =  limitQuery.skip(skip);
+  const paginationQuery = limitQuery.skip(skip);
 
+  let fields = '-__v';
 
-  let fields ='-__v'
-
-  if(query?.fields){
-    fields = (query?.fields as string).split(',').join(" ");
+  if (query?.fields) {
+    fields = (query?.fields as string).split(',').join(' ');
   }
 
-  const fieldsQuery = await paginationQuery.select(fields); 
+  const fieldsQuery = await paginationQuery.select(fields);
+  
+*/
 
-  return fieldsQuery;
+  const studentQuery = new QueryBuilder(
+    StudentModel.find().populate('admissionSemester'),
+    query,
+  )
+    .search(studentSearchableFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await studentQuery.modelQuery;
+  return result;
 };
 
 // Retrive one student information. and throw response in client
