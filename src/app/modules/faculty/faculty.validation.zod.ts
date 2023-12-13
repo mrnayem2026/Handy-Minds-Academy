@@ -1,53 +1,64 @@
-import mongoose from 'mongoose';
 import { z } from 'zod';
+import { BloodGroup, Gender } from './faculty.consonent';
 
-// Define Zod schema for facultyName
-const facultyNameSchemaZod = z.object({
-  firstName: z.string().min(1, { message: 'First name is required' }),
-  middleName: z.string().min(1, { message: 'Middle name is required' }),
-  lastName: z.string().min(1, { message: 'Last name is required' }),
+const createUserNameValidationSchema = z.object({
+  firstName: z
+    .string()
+    .min(1)
+    .max(20)
+    .refine((value) => /^[A-Z]/.test(value), {
+      message: 'First Name must start with a capital letter',
+    }),
+  middleName: z.string(),
+  lastName: z.string(),
 });
 
-// Define Zod schema for faculty
-export const facultyValidationSchema = z.object({
-  fauclty: z.object({
-    id: z.string(),
-    user: z.string(),
-    designation: z.string(),
-    name: facultyNameSchemaZod,
-    gender: z.enum(['male', 'female']),
-    dataOfBirth: z.string(),
-    email: z
-      .string()
-      .email({ message: 'Invalid email format' })
-      .refine(
-        async (value) => {
-          const existingEmail = await mongoose
-            .model('faculty')
-            .findOne({ email: value });
-          return !existingEmail;
-        },
-        { message: 'Email must be unique. The email "{value}" already exists' },
-      ),
-    contactNo: z.string().min(1, { message: 'Contact no is required' }),
-    emergencyContactNo: z.string(),
-    bloadGroup: z
-      .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
-      .optional(),
-    presentAddress: z.string(),
-    permanentAddress: z.string(),
-    profileImg: z.string(),
-    academicDepartment: z.string().refine(
-      async (value) => {
-        const existingDepartment = await mongoose
-          .model('AcademicDepartment')
-          .findById(value);
-        return !!existingDepartment;
-      },
-      { message: 'Invalid Academic Department' },
-    ),
-    isDeleted: z.boolean(),
+export const createFacultyValidationSchema = z.object({
+  body: z.object({
+    password: z.string().max(20),
+    faculty: z.object({
+      designation: z.string(),
+      name: createUserNameValidationSchema,
+      gender: z.enum([...Gender] as [string, ...string[]]),
+      dateOfBirth: z.string().optional(),
+      email: z.string().email(),
+      contactNo: z.string(),
+      emergencyContactNo: z.string(),
+      bloogGroup: z.enum([...BloodGroup] as [string, ...string[]]),
+      presentAddress: z.string(),
+      permanentAddress: z.string(),
+      academicDepartment: z.string(),
+      profileImg: z.string(),
+    }),
   }),
 });
 
-export default facultyValidationSchema;
+const updateUserNameValidationSchema = z.object({
+  firstName: z.string().min(1).max(20).optional(),
+  middleName: z.string().optional(),
+  lastName: z.string().optional(),
+});
+
+export const updateFacultyValidationSchema = z.object({
+  body: z.object({
+    faculty: z.object({
+      designation: z.string().optional(),
+      name: updateUserNameValidationSchema,
+      gender: z.enum([...Gender] as [string, ...string[]]).optional(),
+      dateOfBirth: z.string().optional(),
+      email: z.string().email().optional(),
+      contactNo: z.string().optional(),
+      emergencyContactNo: z.string().optional(),
+      bloogGroup: z.enum([...BloodGroup] as [string, ...string[]]).optional(),
+      presentAddress: z.string().optional(),
+      permanentAddress: z.string().optional(),
+      profileImg: z.string().optional(),
+      academicDepartment: z.string().optional(),
+    }),
+  }),
+});
+
+export const studentValidations = {
+  createFacultyValidationSchema,
+  updateFacultyValidationSchema,
+};
