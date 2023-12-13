@@ -33,12 +33,9 @@ const createFacultyIntoDB = async (
   next: NextFunction,
 ) => {
   try {
-    const { password, faculty} = req.body;
+    const { password, faculty } = req.body;
 
-    const result = await userServices.createFacultyIntoDB(
-      password,
-      faculty,
-    );
+    const result = await userServices.createFacultyIntoDB(password, faculty);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -51,7 +48,28 @@ const createFacultyIntoDB = async (
   }
 };
 
+const createAdminIntorDb = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { password, admin } = req.body;
+
+    const result = await userServices.createAdminIntorDb(password, admin);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Admin create successfull',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const userController = {
   createStudent,
   createFacultyIntoDB,
+  createAdminIntorDb,
 };
