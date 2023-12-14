@@ -4,7 +4,9 @@ import { TCourse } from './course.interface';
 import { Course } from './course.model';
 
 const createCourseIntoDB = async (payload: TCourse) => {
-  const result = await Course.create(payload);
+  const result = (await Course.create(payload)).populate(
+    'preRequisteCourses.course',
+  );
   return result;
 };
 
@@ -38,6 +40,29 @@ const updateCourseIntoDB = async (id: string, payload: Partial<TCourse>) => {
       runValidators: true,
     },
   );
+
+  if (preRequisteCourses && preRequisteCourses.length > 0) {
+    const deletedPreRequisites = preRequisteCourses
+    .filter((el) => el.course && el.isDeleted)
+    .map((el) => el.course);
+
+    console.log({deletedPreRequisites});
+  const deletedPreRequisiteCourses = await Course.findByIdAndUpdate(
+    id,
+    {
+      $pull: {
+        preRequisteCourses: { course: { $in: deletedPreRequisites } },
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  
+  }
+
   return updatedBasicCourseInfo;
 };
 
