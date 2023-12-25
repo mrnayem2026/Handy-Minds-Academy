@@ -36,6 +36,6 @@ router.post(
 //   SemesterRegistrationController.deleteSemesterRegistration,
 // );
 
-// router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
+router.get('/', SemesterRegistrationControllers.getAllSemesterRegistrationsFromDB);
 
 export const SemesterRegistrationRoutes = router;
