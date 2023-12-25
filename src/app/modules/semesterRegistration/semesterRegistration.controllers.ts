@@ -23,7 +23,7 @@ const createSemesterRegistrationIntoDB = catchAsync(
 );
 
 const getAllSemesterRegistrationsFromDB = catchAsync(async(req:Request,res:Response)=>{
-    const result = await SemesterRegistrationService.getAllSemesterRegistrationsFromDB();
+    const result = await SemesterRegistrationService.getAllSemesterRegistrationsFromDB(req.query);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
