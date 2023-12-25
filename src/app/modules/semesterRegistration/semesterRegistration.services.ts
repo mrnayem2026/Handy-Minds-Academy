@@ -78,7 +78,14 @@ const getAllSemesterRegistrationsFromDB = async (
   return result;
 };
 
+const getSingleSemesterRegistrationsFromDB = async (id: string) => {
+    const result = await semesterRegistration.findById(id);
+  
+    return result;
+  };
+
 export const SemesterRegistrationService = {
   createSemesterRegistrationIntoDB,
   getAllSemesterRegistrationsFromDB,
+  getSingleSemesterRegistrationsFromDB
 };

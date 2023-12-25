@@ -13,10 +13,10 @@ router.post(
   SemesterRegistrationControllers.createSemesterRegistrationIntoDB,
 );
 
-// router.get(
-//   '/:id',
-//   SemesterRegistrationController.getSingleSemesterRegistration,
-// );
+router.get(
+  '/:id',
+  SemesterRegistrationControllers.getSingleSemesterRegistration,
+);
 
 // router.patch(
 //   '/:id',
