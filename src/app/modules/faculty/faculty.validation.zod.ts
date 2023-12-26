@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { BloodGroup, Gender } from './faculty.consonent';
 
+
 const createUserNameValidationSchema = z.object({
   firstName: z
     .string()
