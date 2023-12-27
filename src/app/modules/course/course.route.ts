@@ -2,11 +2,13 @@ import { Router } from 'express';
 import validateRequest from '../../midellwares/validateRequest';
 import { CourseValidations } from './course.validation';
 import { CourseControllers } from './course.controllers';
+import auth from '../../midellwares/auth';
 
 const router = Router();
 
 router.post(
   '/create-course',
+  auth('admin'),
   validateRequest(CourseValidations.createCourseValidationSchema),
   CourseControllers.createCourseIntoDB,
 );
@@ -29,6 +31,6 @@ router.delete(
   '/:courseId/remove-faculties',
   validateRequest(CourseValidations.facultiesWithCourseValidationSchema),
   CourseControllers.removeFacultiesFromCourse,
-)
+);
 
 export const CourcesRouter = router;

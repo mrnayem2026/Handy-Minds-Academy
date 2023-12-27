@@ -56,7 +56,7 @@ const createAdminIntorDb = async (
   try {
     const { password, admin } = req.body;
 
-    const result = await userServices.createAdminIntorDb(password, admin);
+    const result = await userServices.createAdminIntoDB(password, admin);
     sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
